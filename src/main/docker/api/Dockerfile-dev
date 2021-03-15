@@ -1,0 +1,4 @@
+FROM adoptopenjdk:11-jre-hotspot
+WORKDIR /usr/src/app/api
+COPY ./*.jar /usr/src/app/api/spring-boot-app.jar
+ENTRYPOINT ["java", "-jar", "spring-boot-app.jar"]

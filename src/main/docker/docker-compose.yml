@@ -1,0 +1,42 @@
+version: '3.9'
+
+services:
+  # web_vue: 
+  #   build: 
+  #     context: ./web
+  #     dockerfile: Dockerfile-dev
+  #   ports:
+  #     - "8080:8080"
+  #   container_name: web_vue
+  #   volumes:
+  #      - ./web:/usr/src/app/web
+  #      - /usr/src/app/web/node_modules  
+  #   depends_on:
+  #     - api_service   
+  api_service:
+    image: 'spring-boot-jwt'
+    build:
+      context: ./api
+      dockerfile: Dockerfile-dev
+    container_name: spring-boot-jwt
+    ports:
+      - 8081:8081
+    depends_on:
+      - postgres_db        
+    links:
+      - postgres_db:database 
+      
+  postgres_db:
+    image: 'postgres:13.2'
+    container_name: postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=123456
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    ports:
+      - "5432:5432" 
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+volumes:
+  db-data:      
